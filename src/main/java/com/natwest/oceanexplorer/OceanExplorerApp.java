@@ -9,6 +9,7 @@ import com.natwest.oceanexplorer.navigation.Navigator;
 import com.natwest.oceanexplorer.probe.MissionResult;
 import com.natwest.oceanexplorer.probe.Probe;
 import com.natwest.oceanexplorer.probe.ProbeController;
+import com.natwest.oceanexplorer.probe.ProbeFleetController;
 import com.natwest.oceanexplorer.report.MissionReporter;
 
 import java.util.Set;
@@ -55,6 +56,20 @@ public class OceanExplorerApp {
 
         MissionResult result3 = controller3.execute("FFF");
         reporter.printReport(result3);
+
+        // ── Scenario 4: Multi-probe fleet (shared grid) ──────────────────────
+        System.out.println("Scenario 4: Multi-probe support with collision detection");
+        ProbeFleetController fleet = new ProbeFleetController(new Grid(10, 10));
+        fleet.registerProbe("ProbeA", new Probe(new Position(0, 0), Direction.NORTH));
+        fleet.registerProbe("ProbeB", new Probe(new Position(0, 2), Direction.SOUTH));
+
+        MissionResult fleetResultA = fleet.executeMission("ProbeA", "F");
+        reporter.printReport(fleetResultA);
+
+        MissionResult fleetResultB = fleet.executeMission("ProbeB", "F");
+        reporter.printReport(fleetResultB);
+
+        fleet.shutdown();
     }
 
     /**

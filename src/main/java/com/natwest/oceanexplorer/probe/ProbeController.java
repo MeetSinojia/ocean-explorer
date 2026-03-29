@@ -5,6 +5,7 @@ import com.natwest.oceanexplorer.command.CommandHandlerFactory;
 import com.natwest.oceanexplorer.command.CommandParser;
 import com.natwest.oceanexplorer.exception.ObstacleEncounteredException;
 import com.natwest.oceanexplorer.exception.OutOfBoundsException;
+import com.natwest.oceanexplorer.exception.ProbeCollisionException;
 import com.natwest.oceanexplorer.model.Command;
 import lombok.extern.slf4j.Slf4j;
 
@@ -64,6 +65,11 @@ public class ProbeController {
                         history.getVisitedPositions(), e.getMessage());
             } catch (ObstacleEncounteredException e) {
                 log.warn("Mission halted — obstacle encountered: {}", e.getMessage());
+                return MissionResult.halted(
+                        probe.getPosition(), probe.getDirection(),
+                        history.getVisitedPositions(), e.getMessage());
+            } catch (ProbeCollisionException e) {
+                log.warn("Mission halted — probe collision: {}", e.getMessage());
                 return MissionResult.halted(
                         probe.getPosition(), probe.getDirection(),
                         history.getVisitedPositions(), e.getMessage());
