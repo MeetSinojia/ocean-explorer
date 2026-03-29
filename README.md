@@ -31,6 +31,47 @@ Commands are case-insensitive and whitespace is ignored (`"F F L"` == `"FFL"`).
 - Visit history tracking and later reporting via `MovementHistory` and `MissionReporter`
 - Clear results model in `MissionResult` (successful vs halted, final state, path history)
 
+## Interactive Manual Input Mode
+
+`OceanExplorerApp` now includes an interactive prompt after demo scenarios:
+
+- Run:
+
+```bash
+mvn compile exec:java -Dexec.mainClass=com.natwest.oceanexplorer.OceanExplorerApp
+```
+
+- After initial demo scenarios, you'll see:
+
+```
+Interactive mode: enter commands (F/B/L/R), type 'quit' to exit
+Commands>
+```
+
+- Enter commands to drive the probe from starting position `(0,0)` facing `NORTH`.
+- Use moves like:
+  - `FFRFF`
+  - `B` / `BB`
+  - `LL` / `RR`
+  - mixed `FFLFRB`
+- Commands are case-insensitive; whitespace is accepted.
+- Type `quit` or `exit` to stop.
+
+- Each manual command run uses:
+  - `Grid` 10x10 with no obstacles
+  - `Probe` starts at `(0,0)` north
+  - same command pipeline as existing tests.
+
+## README / repo cleanup features we added
+
+- `.gitignore` for:
+  - `/target/`, `**/target/`
+  - IDE metadata: `.idea/`, `.vscode/`, `*.iml`, etc.
+  - OS artifacts: `.DS_Store`, `Thumbs.db`
+  - logs/temp: `*.log`, `*.tmp`
+- Guidance for running `git rm -r --cached` on tracked generated files
+- `OceanExplorerApp` demo + interactive usage explicitly described
+
 ## Extra features added
 
 - `ProbeFleetController` for concurrent/multi-probe operations on shared grid:
