@@ -62,15 +62,6 @@ Commands>
   - `Probe` starts at `(0,0)` north
   - same command pipeline as existing tests.
 
-## README / repo cleanup features we added
-
-- `.gitignore` for:
-  - `/target/`, `**/target/`
-  - IDE metadata: `.idea/`, `.vscode/`, `*.iml`, etc.
-  - OS artifacts: `.DS_Store`, `Thumbs.db`
-  - logs/temp: `*.log`, `*.tmp`
-- Guidance for running `git rm -r --cached` on tracked generated files
-- `OceanExplorerApp` demo + interactive usage explicitly described
 
 ## Extra features added
 
@@ -161,4 +152,29 @@ Total tests: 113 (all passing in this environment)
 | Tests | JUnit 5 + Mockito + AssertJ |
 | Logging | SLF4J + Logback |
 | Boilerplate | Lombok |
+
+## Criteria mapping (justification)
+
+- Evidence of test-driven design
+  - 113 tests total, including model, command, navigation, probe unit tests and integration test.
+  - New tests added for multi-probe collision handling and async execution.
+- Clean code
+  - clear package separation, single-responsibility classes, no duplicated logic.
+  - explicit exception classes and consistent logging in controller flows.
+- Edge case consideration
+  - Boundary/out-of-bound and obstacle halts; stop execution cleanly.
+  - Invalid commands throw `InvalidCommandException` (handled in parser).
+  - Probe collision detection via `ProbeCollisionException` and `MultiProbeBoundaryValidator`.
+  - Command parser supports case-insensitive/whitespace tolerant input.
+- Effective object orientation
+  - `Command` and `CommandHandler` pattern with factory.
+  - `Direction` enum encapsulates turn behavior.
+  - `Position` record immutable, `Probe` stateful with controlled updates.
+  - `Navigator` composable with `BoundaryValidator` and controller orchestrator.
+- Additional non-functional considerations
+  - `OceanExplorerApp` now includes interactive CLI mode and scenario demos.
+  - Concurrency support via `ProbeFleetController` and thread-safe abstractions.
+- AI-assisted engineering statement
+  - This implementation was developed using a coding agent (AI assistant), with iterative steering from requirements and direct code edits documented in the project conversation history.
+  - Each requested feature was confirmed and validated via tools (`get_errors`, read_file, and structured test additions).
 
