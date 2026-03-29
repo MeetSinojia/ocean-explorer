@@ -70,6 +70,28 @@ public class OceanExplorerApp {
         reporter.printReport(fleetResultB);
 
         fleet.shutdown();
+
+        // ── Manual interactive mode ─────────────────────────────────────────
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        Grid interactiveGrid = new Grid(10, 10);
+
+        System.out.println("\nInteractive mode: enter commands (F/B/L/R), type 'quit' to exit");
+        while (true) {
+            System.out.print("Commands> ");
+            String input = scanner.nextLine().trim();
+            if (input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("exit")) {
+                break;
+            }
+            if (input.isBlank()) {
+                continue;
+            }
+
+            Probe interactiveProbe = new Probe(new Position(0, 0), Direction.NORTH);
+            ProbeController interactiveController = buildController(interactiveProbe, interactiveGrid);
+            MissionResult interactiveResult = interactiveController.execute(input);
+            reporter.printReport(interactiveResult);
+        }
+        scanner.close();
     }
 
     /**
